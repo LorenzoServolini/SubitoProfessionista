@@ -1,0 +1,782 @@
+/* Stile di base */
+body {
+    display: flex;
+    flex-direction: column;
+    word-wrap: break-word; /* Evita che le parole troppo lunghe escano dalla pagina */
+    margin: 0;
+    background-color: lightskyblue; /* Fallback: se l'immagine non è disponibile */
+    background-image: url('../img/background.jpg');
+    background-repeat: repeat-y;
+    background-size: cover;
+    font-family: Verdana, Helvetica, sans-serif;
+    font-size: 16px;
+
+    /*
+     * Trick per il footer: impostando il body ad un'altezza pari al
+     * 100% della viewport si ha che il footer sta in fondo alle pagine piccole
+     * (con poco contenuto = senza scrollbar); nelle pagine grandi (con scrollbar)
+     * invece segue il flusso della pagina e finisce in automatico in fondo
+     * (poiché c'è un numero sufficiente di elementi che lo "spingono" in basso)
+     */
+    height: 100vh;
+}
+
+.page-container {
+    margin-top: 60px; /* Margine per evitare la sovrapposizione con la barra di navigazione */
+    color: #4caf50;
+}
+
+h1 {
+    text-align: center;
+    font-size: 30px;
+}
+
+hr { border: 1px inset #f1f1f1; }
+
+input {
+    padding: 12px 20px;
+    outline: none;
+}
+
+input[type=radio] { cursor: pointer; }
+
+label {
+    cursor: pointer;
+    outline: none;
+}
+
+select {
+    cursor: pointer;
+    outline: none;
+}
+
+textarea {
+    outline: none;
+    padding: 12px 20px;
+}
+
+mark {
+    text-decoration: underline;
+    background-color: inherit;
+    color: inherit;
+}
+
+button {
+    cursor: pointer;
+    outline: none;
+}
+button:disabled { pointer-events: none; }
+
+button.submit {
+    background-color: #4CAF50;
+    color: white;
+    padding: 14px;
+    margin: 8px 0;
+    border: none;
+    border-radius:4px;
+    font-family: inherit;
+    font-size: inherit;
+    transition: background-color 0.5s;
+}
+button.submit:hover { background-color: #459f4a; }
+
+button.cancel {
+    background-color: #f44336;
+    color: white;
+    padding: 14px;
+    margin: 8px 0;
+    border: none;
+    border-radius:4px;
+    font-family: inherit;
+    font-size: inherit;
+    transition: background-color 0.5s;
+}
+button.cancel:hover { background-color: #dd3e32; }
+
+a {
+    text-decoration: none;
+    outline: none;
+    color: inherit;
+}
+a.disabled { pointer-events: none; }
+a.underlined:hover { text-decoration: underline; }
+
+footer {
+    color: white;
+    background-color: #333333;
+
+    /*
+     * Trick: in fondo alla pagina il footer.
+     * Grazie al body che ha un'altezza del 100% della viewport, il
+     * margine superiore sarà pari a 0 nel caso di pagine grandi
+     * (con scrollbar) e pari a un numero X tale per cui il footer
+     * finisce alla fine della pagina nelle pagine piccole (senza scrollbar)
+     */
+    margin: auto 0 0 0;
+
+    padding: 3px;
+    font-size: inherit;
+    font-family: inherit;
+    text-align: center;
+}
+
+
+
+/* Stile dei campi di input */
+.input-field {
+    margin: 8px auto; /* 'auto' centra l'elemento orizzontalmente */
+    border: 3px solid #8c8c8c;
+    border-radius: 4px;
+    background-color: #e5e5e5;
+    font-family: inherit;
+    font-size: inherit;
+    transition: border-color 0.4s;
+}
+.input-field:focus { border-color: #4c4c4c; }
+
+/* Impedisce l'evidenziazione di default di Firefox in caso di input scorretto */
+.input-field:invalid:focus { box-shadow: none; }
+
+/* Evidenzia e scuote il campo di input se l'utente non rispetta le specifiche (es. pattern, minlength...) */
+.input-field:not(select):invalid:not(:focus):not(:placeholder-shown) {
+    box-shadow: 0 0 10px 2px #ea2929;
+    animation: shake 0.9s ease-in;
+}
+
+@keyframes shake {
+    0% { transform: translate(0); }
+    20%,
+    40%,
+    60%,
+    80% { transform: translate(0.4em); }
+    10%,
+    30%,
+    50% { transform: translate(-0.4em); }
+    70%,
+    100% { transform: translate(0); }
+}
+
+    /* Contatori relativi ai campi di input */
+    .input-field + .contatore {
+        width: 262px;
+        margin: -8px auto 8px; /* 'auto' centra l'elemento orizzontalmente */
+        font-size: 15px;
+        color: #404040;
+    }
+
+/* Menù a tendina con scelte multiple */
+select.input-field[multiple] { padding: 0 5px; }
+
+
+/* Stile dei paragrafi di alert */
+p.alert {
+    margin: 0 8px 8px;
+    padding: 8px 5px;
+    border-radius: 4px;
+    text-align: center;
+    font-family: inherit;
+    font-size: inherit;
+}
+
+    /* Stile del paragrafo di alert nella pagina index.php */
+    #main-page p.alert {
+        position: relative;
+        margin-top: -9px; /* Avvicinarsi alla barra di navigazione */
+        padding: 8px 0; /* Centra il testo rispetto alla pagina */
+        left: 35%;
+        width: 30%;
+    }
+
+    /* Colorazioni del paragrafo */
+    p.alert.red {
+        border: 3px solid #e54538;
+        background-color: #f67167;
+        color: black;
+    }
+    p.alert.green {
+        border: 3px solid #4caf50;
+        background-color: #75bc79;
+        color: white;
+    }
+
+
+
+/* Stile per dividere il contenuto in due colonne */
+.riga::after { /* Evita il collasso ad altezza nulla degli elementi flottanti ("clearfix" hack) */
+    content: "";
+    display: table;
+    clear: both;
+}
+.colonna {
+    width: 50%;
+    float: left;
+}
+
+
+
+/* Stile di un pannello generico in cui inserire una serie di informazioni/risultati */
+.pannello {
+    border: 4px solid #f1f1f1;
+    width: 70%;
+    margin: 0 auto 40px auto; /* 'auto' centra l'elemento orizzontalmente */
+    background-color: #bebebe;
+    border-radius: 4px;
+    box-shadow: 0 3px 6px 7px rgba(106, 127, 200, 0.5);
+}
+
+    .pannello div.main-panel { padding: 8px 0; }
+
+    .pannello div.main-panel > p.info {
+        color: #404040;
+        margin-top: 0;
+    }
+
+    .pannello div.sub-panel {
+        border-top: 3px solid #8c8c8c;
+        padding: 8px 0;
+        background-color: #e5e5e5;
+    }
+
+
+/* Stile pannello per la ricerca di professionisti */
+#ricerca { text-align: center; }
+
+    #ricerca select {
+        font-size: inherit;
+        font-family: inherit;
+        width: 450px;
+        height: 40px;
+        border: 0;
+        border-radius: 10px;
+        box-shadow: 3px 3px 4px 1px rgba(136, 150, 193, 0.5);
+        transition: box-shadow 0.5s linear;
+        padding: 0 20px;
+    }
+    #ricerca select:focus { box-shadow: 0 -2px 3px 2px rgba(18, 217, 132, 0.8); }
+
+    #ricerca button {
+        font-size: inherit;
+        font-family: inherit;
+        padding: 10px 33px;
+        margin-left: 2px;
+        border: none;
+        border-radius: 10px;
+        background-color: #4caf50;
+        color: white;
+        transition: background-color 0.5s;
+    }
+    #ricerca button:hover { background-color: #398a3d; }
+
+    /* Animazione per '»' */
+    #ricerca button > span { position: relative; }
+    #ricerca button > span::before {
+        content: '\00bb';
+        position: absolute;
+        opacity: 0;
+        right: -25px;
+        top: 1px;
+        transition: opacity 0.5s, right 0.5s;
+    }
+    #ricerca button:hover > span::before {
+        opacity: 1;
+        right: -14px;
+    }
+
+
+
+/* Stile barra di navigazione */
+nav ul {
+    background-color: #333333;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    position: fixed;
+    top: 0;
+    width: 100%;
+}
+
+    nav ul li { float: left; }
+
+    nav ul li.right { float: right; }
+
+    nav ul li a {
+        display: block;
+        color: white;
+        text-align: center;
+        padding: 14px 15px;
+        font-size: inherit;
+        font-family: inherit;
+        transition: color 0.7s, background-color 0.7s;
+    }
+    nav ul li a:hover:not(.active) {
+        background-color: #ddd;
+        color: black;
+    }
+    nav ul li a.active { background-color: #4caf50; }
+
+
+
+/* Stile pannello di login */
+#login {
+    text-align: center;
+    width: 30%;
+}
+
+    #login img { margin: 12px 0; }
+
+    #login .input-field {
+        display: block;
+        width: 216px;
+    }
+
+
+
+/* Stile pannello di registrazione (professionista e utente) */
+#registra {
+    text-align: center;
+    width: 55%;
+    margin-top: 20px;
+}
+
+    #registra fieldset {
+        margin: 8px auto; /* 'auto' centra l'elemento orizzontalmente */
+        padding: 7px 20px;
+        width: 216px;
+        border: 3px solid #8c8c8c;
+        border-radius: 4px;
+        background-color: #e5e5e5;
+        font-family: inherit;
+        font-size: inherit;
+        text-align: center;
+    }
+    #registra fieldset input[type=radio] { margin-top: 5px; }
+
+    #registra select.input-field {
+        display: block;
+        width: 262px;
+    }
+    #registra select.input-field:not([multiple]) { padding: 12px 16px; }
+
+    #registra textarea.input-field {
+        display: block;
+        height: 38px;
+        min-height: 19px;
+        max-height: 250px;
+        width: 216px;
+        max-width: 68%;
+    }
+
+    #registra input.input-field {
+        width: 216px;
+        display: block;
+    }
+
+    #registra .input-field + .contatore {
+        display: block;
+        margin-bottom: 0;
+        text-align: left;
+    }
+
+    #registra button.cancel { padding: 14px 20px; }
+
+    #registra label.checkbox {
+        display: table;
+        margin: 16px auto 8px; /* 'auto' centra l'elemento orizzontalmente */
+    }
+
+
+
+/* Stile risultati della ricerca di una professione (ricerca.php) */
+
+/* "Sezione" per ogni professionista trovato nel database */
+#search-result > a {
+    display: block;
+    padding: 8px 8px;
+    border-top: 3px solid #8c8c8c;
+    margin: 0;
+    background-color: #e5e5e5;
+    font-family: inherit;
+    font-size: inherit;
+}
+#search-result > a:hover { background-color: #f1f1f1; }
+
+/* Imposta il margine superiore al primo elemento  */
+#search-result > a:first-child { margin-top: 45px; }
+
+/* Imposta il margine e il bordo inferiore all'ultimo elemento */
+#search-result > a:last-child {
+    margin-bottom: 45px;
+    border-bottom: 3px solid #8c8c8c;
+}
+
+    /* Formattazione del contenuto di ogni "sezione" (una sezione per ogni professionista) */
+    #search-result > a > p { margin-bottom: 0; }
+    #search-result > a > p.valutazione { margin-bottom: 16px; } /* Paragrafo contenente la valutazione media */
+    #search-result > a > p > b { font-size: 20px; }
+    #search-result > a > pre { /* Stile del testo inserito dal professionista (al momento della registrazione) */
+        margin-top: 5px;
+        white-space: pre-wrap;
+    }
+
+
+
+/* Stile della scheda personale dei professionisti (scheda-personale.php) */
+#scheda-professionista > div {
+    padding: 8px 8px;
+    border-top: 3px solid #8c8c8c;
+    border-bottom: 3px solid #8c8c8c;
+    margin: 45px 0;
+    background-color: #e5e5e5;
+    font-family: inherit;
+    font-size: inherit;
+}
+
+    /* Seconda colonna allineata a destra */
+    #scheda-professionista > div > .riga > p:nth-of-type(2) { text-align: right; }
+
+    #scheda-professionista > div > p { text-align: center; }
+    #scheda-professionista > div p > b { font-size: 20px; }
+
+    /* Stile del testo inserito dal professionista (al momento della registrazione) */
+    #scheda-professionista > div pre {
+        text-align: center;
+        margin-top: 5px;
+        white-space: pre-wrap;
+    }
+
+/* Stile della sezione "Recensioni" nella scheda personale di un professionista (scheda-personale.php) */
+#scheda-professionista #recensioni {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center;
+    margin: 0 auto; /* 'auto' centra l'elemento orizzontalmente */
+}
+
+    /*
+    * Stile delle valutazioni nella parte destra della sezione "Recensioni"
+    * presente sulla scheda personale dei professionisti (scheda-personale.php)
+    */
+    #scheda-professionista #recensioni > #votazione {
+        width: 50%;
+        text-align: center;
+    }
+
+    /* Stile delle stelle (icone di Font Awesome) */
+    #scheda-professionista #recensioni > #votazione .fa-star { font-size: 20px; }
+    #scheda-professionista #recensioni > #votazione .fa-star.checked { color: orange; }
+    #scheda-professionista #recensioni > #votazione .fa-star:not(.checked) { color: black; }
+
+    /*
+    * Contenitore dei 2 pulsanti (per inserire una nuova recensione e per vedere
+    * la lista di tutte le recensioni registrate) presenti nella parte destra
+    * della scheda personale di un professionista (scheda-personale.php).
+    */
+    #scheda-professionista #recensioni div:nth-of-type(2) {
+        margin: 0 auto; /* 'auto' centra l'elemento orizzontalmente */
+        width: 35%;
+    }
+
+    /*
+    * Stile dei 2 pulsanti (per inserire una nuova recensione e per vedere la lista di
+    * tutte le recensioni registrate) presenti nella parte destra della scheda personale
+    * di un professionista (scheda-personale.php).
+    * Il primo pulsante è visibile solo agli utenti e ai professionisti registrati
+    * sul sito mentre il secondo a chiunque.
+    */
+    #scheda-professionista #recensioni #nuova-recensione,
+    #scheda-professionista #recensioni #lista-recensioni {
+        text-align: center;
+        font-size: inherit;
+        font-family: inherit;
+        border-radius: 10px;
+        background-color: #4caf50;
+        color: white;
+        margin: 12px auto; /* 'auto' centra l'elemento orizzontalmente */
+        width: 100%;
+        transition: background-color 0.5s;
+    }
+    #scheda-professionista #recensioni #nuova-recensione:hover,
+    #scheda-professionista #recensioni #lista-recensioni:hover {
+        background-color: #398a3d;
+    }
+
+    #scheda-professionista #recensioni #nuova-recensione > a,
+    #scheda-professionista #recensioni #lista-recensioni > a{
+        display: block;
+        padding: 12px 0;
+        margin: 0;
+        font-family: inherit;
+        font-size: inherit;
+    }
+
+
+
+/*
+* Stile del contenitore dei bottoni che un professionista può
+* vedere in fondo alla sua scheda personale (scheda-personale.php)
+*/
+#contenitore-bottoni {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center;
+    margin: 0 auto 40px auto; /* 'auto' centra l'elemento orizzontalmente */
+    width: 70%;
+}
+
+    /*
+    * Stile pulsante per registrare un nuovo intervento, mostrato solo
+    * ai professionisti sulla propria scheda personale (scheda-personale.php)
+    */
+    #contenitore-bottoni > #nuovo-intervento {
+        text-align: center;
+        font-size: inherit;
+        font-family: inherit;
+        border-radius: 10px;
+        background-color: #4caf50;
+        color: white;
+        width: 35%;
+        transition: background-color 0.5s;
+    }
+    #contenitore-bottoni > #nuovo-intervento:hover { background-color: #398a3d; }
+
+    #contenitore-bottoni > #nuovo-intervento > a {
+        display: block;
+        padding: 12px 0;
+        margin: 0;
+        font-family: inherit;
+        font-size: inherit;
+    }
+
+    /*
+    * Stile del campo di input per la ricerca di utenti, mostrato solo
+    * ai professionisti sulla propria scheda personale (scheda-personale.php)
+    */
+    #contenitore-bottoni > #cerca-utente {
+        text-align: center;
+        padding: 5px 0 0 0;
+        width: 35%;
+        margin: 0;
+    }
+
+    #contenitore-bottoni > #cerca-utente .input-field {
+        width: 216px;
+        margin: 8px 10px;
+    }
+
+
+
+/* Stile pannello per l'inserimento di una recensione (registrazione.php) */
+#registra-recensione {
+    text-align: center;
+    width: 55%;
+    margin-top: 20px;
+}
+
+    #registra-recensione select.input-field {
+        display: block;
+        padding: 12px 16px;
+        width: 262px;
+        margin-bottom: 16px;
+    }
+
+    #registra-recensione textarea.input-field {
+        display: block;
+        max-width: 75%;
+    }
+
+    #registra-recensione button.cancel { padding: 14px 20px; }
+
+
+
+/* Stile della scheda personale degli utenti (scheda-personale.php) */
+#scheda-utente > div {
+    padding: 8px 8px;
+    border-top: 3px solid #8c8c8c;
+    border-bottom: 3px solid #8c8c8c;
+    margin: 45px 0;
+    background-color: #e5e5e5;
+    font-family: inherit;
+    font-size: inherit;
+}
+
+#scheda-utente > div p {
+    color: black;
+    text-align: center;
+}
+
+/* Prima colonna allineata a sinistra e seconda colonna allineata a destra */
+#scheda-utente > div > .riga > p:nth-of-type(1) { text-align: left; }
+#scheda-utente > div > .riga > p:nth-of-type(2) { text-align: right; }
+
+#scheda-utente > div p > b {
+    font-size: 20px;
+    color: #4caf50;
+}
+
+/* Stile del testo inserito dal professionista (al momento dell'inserimento dell'intervento) */
+#scheda-utente > div pre {
+    text-align: center;
+    color: black;
+    font-size: 18px;
+    margin-top: 5px;
+    white-space: pre-wrap;
+}
+
+
+
+/* Stile zona per il filtraggio dei risultati (scheda-personale.php) */
+#filtra {
+    text-align: center;
+    margin: 20px auto; /* 'auto' centra l'elemento orizzontalmente */
+    background-color: #e5e5e5;
+
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: stretch;
+}
+
+    #filtra fieldset {
+        display: inline;
+        width: 43%;
+        margin: 0 0 4px 0;
+        padding: 7px 8px;
+        border: 2px solid #8c8c8c;
+        border-radius: 4px;
+        font-family: inherit;
+        font-size: inherit;
+        text-align: center;
+    }
+
+    #filtra fieldset > legend { padding: 5px 10px; }
+
+    #filtra .input-field { margin: 8px 0; }
+    #filtra .input-field:not([multiple]) { padding: 12px 0 12px 8px; }
+    #filtra select.input-field { width: 50%; }
+    #filtra input.input-field { width: 36%; }
+    #filtra input.input-field.long { width: 50%; }
+
+    #filtra #button-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+    }
+
+    #filtra #button-container > button.submit { margin: 0; }
+
+    #filtra #button-container > button.cancel { margin: 0;}
+
+
+
+/*
+ * Stile della barra di navigazione presente nelle pagine che non riescono a mostrare tutti i risultati.
+ *
+ * Ad esempio, nel caso di un'email di un utente, scheda-personale.php mostra solo i primi
+ * 5 interventi; gli altri (se ce ne sono) li distribuisce su altre pagine, a cui è possibile
+ * arrivare usando questa barra di navigazione
+ */
+#paging {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+
+    margin-bottom: 40px;
+}
+
+    #paging > p {
+        margin: 0 3px;
+        padding: 8px 10px;
+        border: 3px solid #8c8c8c;
+        border-radius: 4px;
+        background-color: #e5e5e5;
+        font-family: inherit;
+        font-size: inherit;
+    }
+
+
+
+/* Stile pannello di registrazione di un intervento (registrazione.php) */
+#registra-intervento {
+    text-align: center;
+    width: 55%;
+    margin-top: 20px;
+}
+
+    #registra-intervento textarea.input-field {
+        display: block;
+        max-width: 75%;
+    }
+
+    #registra-intervento input.input-field {
+        display: block;
+        width: 216px;
+    }
+
+    #registra-intervento button.cancel { padding: 14px 20px; }
+
+
+
+/* Stile dell'elenco di recensioni di un professionista (lista-recensioni.php) */
+#elenco-recensioni > .recensione {
+    padding: 8px 8px;
+    border-top: 3px solid #8c8c8c;
+    margin: 0;
+    background-color: #e5e5e5;
+    font-family: inherit;
+    font-size: inherit;
+}
+
+    /* Imposta il margine superiore al primo elemento  */
+    #elenco-recensioni > .recensione:first-child { margin-top: 45px; }
+
+    /* Imposta il margine e il bordo inferiore all'ultimo elemento */
+    #elenco-recensioni > .recensione:last-child {
+        margin-bottom: 45px;
+        border-bottom: 3px solid #8c8c8c;
+    }
+
+    /* Stile titolo di sezione "Commento" */
+    #elenco-recensioni > .recensione > p { text-align: center; }
+    #elenco-recensioni > .recensione p > b { font-size: 20px; }
+
+    /* Stile del feedback inserito dall'autore della recensione */
+    #elenco-recensioni > .recensione pre {
+        text-align: center;
+        margin-top: 5px;
+        white-space: pre-wrap;
+    }
+
+/* Stile della sezione che contiene il sommario della recensione (autore, data, voto) */
+#elenco-recensioni .sommario {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center;
+    margin: 0 auto; /* 'auto' centra l'elemento orizzontalmente */
+}
+
+    #elenco-recensioni .sommario > p {
+        width: 33%;
+        text-align: center;
+    }
+
+
+
+/* Stile della pagina contenente il manuale utente (manuale.php) */
+.manuale {
+    color: white;
+    background-color: #333333;
+    border: 3px solid #8c8c8c;
+    border-radius: 4px;
+    padding: 8px;
+    margin: 30px 15px;
+}
