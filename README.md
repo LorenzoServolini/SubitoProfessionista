@@ -1,5 +1,5 @@
 # SubitoProfessionista
-## Features
+## ⭐Features⭐
 - Seeking for professionals with several filters available
 - Reviews
 - Track all maintenance work received by a user, with multiple filters available
